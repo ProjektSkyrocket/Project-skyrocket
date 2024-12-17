@@ -1,0 +1,37 @@
+import React, { useState } from "react";
+
+function App() {
+  const [youtubeLink, setYoutubeLink] = useState("");
+  const [hookTitle, setHookTitle] = useState("");
+
+  const handleSubmit = async () => {
+    const response = await fetch("/process-video", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ youtubeLink, hookTitle }),
+    });
+    const data = await response.json();
+    alert(`Short created: ${data.downloadLink}`);
+  };
+
+  return (
+    <div>
+      <h1>YouTube Shorts Generator</h1>
+      <input
+        type="text"
+        placeholder="Enter YouTube Video URL"
+        value={youtubeLink}
+        onChange={(e) => setYoutubeLink(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Enter Hook Title"
+        value={hookTitle}
+        onChange={(e) => setHookTitle(e.target.value)}
+      />
+      <button onClick={handleSubmit}>Generate Short</button>
+    </div>
+  );
+}
+
+export default App;
